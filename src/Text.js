@@ -16,7 +16,9 @@ class Text extends React.Component {
       throw Error("Could not find MathJax while attempting typeset! Probably MathJax script hasn't been loaded or MathJax.Context is not in the hierarchy")
     }
 
+    this.props.onTypeset();
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.div]);
+    MathJax.Hub.Queue(this.props.onTypesetDone);
   }
 
   render() {
@@ -29,6 +31,16 @@ class Text extends React.Component {
     );
   }
 }
+
+Text.propTypes = {
+  onTypeset: PropTypes.func,
+  onTypesetDone: PropTypes.func,
+};
+
+Text.defaultProps = {
+  onTypeset: () => {},
+  onTypesetDone: () => {},
+};
 
 Text.contextTypes = {
   MathJax: PropTypes.object,
